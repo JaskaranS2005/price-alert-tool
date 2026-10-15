@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A browser companion for checking price alert rules.">
+    <title>Signal Ledger — Price alerts</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Market operations / alert review</p>
+          <h1>Signal Ledger</h1>
+          <p class="lede">Drop in a price sheet and its alert rules. Results stay in this browser.</p>
+        </div>
+        <div class="status"><span></span> Local analysis</div>
+      </header>
+
+      <section class="brief" aria-labelledby="how-title">
+        <h2 id="how-title">A small, deliberate workflow</h2>
+        <ol>
+          <li><b>1</b><span>Choose your prices CSV.</span></li>
+          <li><b>2</b><span>Choose your rules JSON.</span></li>
+          <li><b>3</b><span>Review the alerts, then export them.</span></li>
+        </ol>
+      </section>
+
+      <section class="workspace" aria-label="Alert evaluation workspace">
+        <form id="upload-form" novalidate>
+          <div class="field">
+            <label for="prices">Daily prices <small>CSV: date, instrument, close</small></label>
+            <input id="prices" name="prices" type="file" accept=".csv,text/csv" required>
+          </div>
+          <div class="field">
+            <label for="rules">Alert rules <small>JSON list</small></label>
+            <input id="rules" name="rules" type="file" accept=".json,application/json" required>
+          </div>
+          <button type="submit">Evaluate alerts <span aria-hidden="true">→</span></button>
+          <p class="form-note">No uploads. Files are read only in your browser.</p>
+        </form>
+
+        <aside class="rule-note">
+          <p class="eyebrow">Rule notes</p>
+          <p>Level alerts need a real crossing, not a touch. Moving averages need complete windows on today and the prior trading day.</p>
+        </aside>
+      </section>
+
+      <section class="results" aria-labelledby="results-title" hidden>
+        <div class="results-head">
+          <div>
+            <p class="eyebrow">Evaluation output</p>
+            <h2 id="results-title">Alerts</h2>
+          </div>
+          <button id="export" class="quiet" type="button">Export CSV</button>
+        </div>
+        <div class="filters">
+          <label>Instrument <select id="instrument-filter"><option value="">All instruments</option></select></label>
+          <label>Rule <select id="rule-filter"><option value="">All rules</option></select></label>
+        </div>
+        <p id="summary" class="summary" aria-live="polite"></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Rule</th><th>Instrument</th><th>Event</th></tr></thead>
+            <tbody id="alerts"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="messages" class="messages" aria-live="polite" hidden></section>
+    </main>
+    <footer>Signal Ledger is a local review tool. The assessed command-line implementation remains the source of record.</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
